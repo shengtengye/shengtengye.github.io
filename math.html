@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            // set the pyodide files URL (packages.json, pyodide.asm.data etc)
+            window.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
+        </script>
+        <script src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        body {
+            margin: 10px;
+            text-align: center;
+        }
+        
+        label{
+            font-size: calc(100vw / 9);
+        }
+        
+        input[type="number"] {
+            padding: 10px calc(25vw/ 6) 10px 10px;
+            width: calc(100vw / 3);
+            border-radius: 100vw;
+            font-family: inherit !important;
+            font-size: calc(100vw / 9) !important;
+            text-align: center;
+            margin: 10px 0px;
+        }
+        
+        input[type="number"]:hover {
+            background-color: #fafafa;
+        }
+        
+        input[type="button"]:hover {
+            background-color: #b4ecfa;
+        }
+       	
+        input[type="button"] {
+            padding: 2vw;
+            width: 100%;
+            border-radius: 100vw;
+            background-color: #b9f2ff;
+            border: none !important;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        
+        input[type="button"]:active {
+            background-color: #afe7f5;
+        }
+		
+        input{
+            border: 2px solid black !important;
+            font-size: 45px !important;
+        }
+        
+        form {
+            font-size: 10vw;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        input[type="number"]:focus {
+            border: 4px solid black !important;
+            margin: 8px 0px;
+        }
+        
+        input:focus {
+            outline:none !important;
+        }
+        
+        #wrong {
+            font-size: 4vw;
+            color: red;
+        }
+        
+        #tries {
+            font-size: 4vw;
+        }
+        
+        #loading {
+            font-size: calc(100vw / 11);
+        }
+        
+        /* Only works for Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        @media screen and (max-width: 600px) {
+            label {
+                font-size: 25vw;
+            }
+            
+            input[type="number"] {
+                width: 100%;
+            }
+        }
+        </style>
+    </head>
+    <body>
+        <script>
+          languagePluginLoader.then(function () {
+              console.log(pyodide.runPython(`
+import js
+import random
+from typing import Tuple
+
+def generateProb(idx: int) -> Tuple[int, str, int, int]:
+    opers = ["+", "-", "×", "÷"]
+    oper = opers[idx]
+    if oper == "+" or oper == "-":
+        n1 = random.choice(range(10, 101))
+        if oper == "-":
+            n2 = random.choice(range(1, n1 + 1))
+            ans = n1 - n2
+        else:
+            n2 = random.choice(range(1, 101))
+            ans = n1 + n2
+    elif oper == "×":
+        n1, n2 = random.sample(range(1, 21), 2) 
+        ans = n1 * n2
+    else:
+        n1 = random.choice(range(10, 101))
+        # generate divisible list
+        dvsl = []
+        for i in range(1, n1 + 1):
+            if n1 % i == 0:
+                dvsl.append(i)
+        n2 = random.choice(dvsl)
+        ans = n1 / n2
+    return n1, oper, n2, ans
+
+def ejectPblm() -> int: # eject problem
+    n1, oper, n2, asr = generateProb(random.choice(range(4)))
+    prob = js.document.getElementById("prob")
+    prob.innerHTML = f"{n1} {oper} {n2} ="
+    print(1)
+    return asr
+    
+x = 0
+
+def ansValid(asr: int) -> Tuple[bool, bool]:
+    global x
+    ans = js.document.forms["math"]["answer"].value
+    try:
+        int(ans)
+    except:
+        return False, True
+    else:
+        ans = int(ans)
+    if ans == asr:
+        return True, False
+    x += 1
+    return False, False
+    
+asr = ejectPblm()
+
+js.document.forms["math"].style.display = "block"
+js.document.getElementById("loading").style.display = "none"
+
+def submitted(asr: int) ->  int:
+    global x
+    v = ansValid(asr)
+    if v[0]:
+        js.document.getElementById("wrong").innerHTML = ""
+        js.document.getElementById("tries").innerHTML = ""
+        asr = ejectPblm()
+        print(1)
+        js.document.forms["math"]["answer"].value = ""
+    elif not v[1]:
+        js.document.getElementById("wrong").innerHTML = "Answer wrong. Please re-enter answer."
+        js.document.getElementById("tries").innerHTML = f"Tries: {x}"
+    return asr
+              `));
+          });
+    </script>
+    <h1 id="loading">Loading app...</h1>
+    <form name="math" style="display: none" onsubmit="pyodide.runPython('asr = submitted(asr)'); return false">
+        <label for="answer" id="prob"></label>
+        <input title="" type="number" id="answer" name="answer" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+        <input type="button" value="Submit" onclick="pyodide.runPython('asr = submitted(asr)')">
+    </form>
+    <div id="wrong"></div><br><div id="tries"></div>
+<script type='text/javascript'  src="https:////tryit.w3schools.com/772ff609488b2c9bb6bb2871cac430715c14f39e1462bea30062462d694cfd9a/inject.js"></script>
+</body>
+</html>
+
