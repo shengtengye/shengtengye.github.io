@@ -8,6 +8,9 @@
         <script src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"></script>
         <meta charset="UTF-8">
         <style>
+body {
+    background-color: #faf8ef;
+}
 table {
     border-collapse: collapse;
     display: block;
@@ -22,10 +25,31 @@ td.border {
     height: 10vw;
     text-align: center;
 }
+
+div#scoreTitle {
+    color: #ebe4da !important;
+}
+
+div#scoreContainer {
+    width: 5vw;
+    background-color: #bbada0;
+    color: white;
+    border-radius: 3px;
+    padding: 1vw 2vw;
+    margin: 0 auto;
+}
+
+#loading {
+    font-size: 20vw;
+}
         </style>
     </head>
     <body onkeydown="pyodide.runPython('ls = keyDown(js.event, ls)')">
-        <table align="center" id="table"></table>
+        <div align="center" id="loading">Loading...</div>
+        <div id="gameContent" style="display: none">
+            <div align="center" id="scoreContainer"><div id="scoreTitle">Score:</div><br><div id="score"></div></div>
+            <table align="center" id="table"></table>
+        </div>
         <script src="script2048.js"></script>
     </body>
 </html>
