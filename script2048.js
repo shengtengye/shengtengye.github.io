@@ -29,11 +29,9 @@ def color(tile: int, Id: int):
 def keyDown(event, ls: list) -> list:
     if event.keyCode >=37 and event.keyCode <= 40:
         arrow = [left, up, right, down][event.keyCode - 37]
-        print(1)
         renderGame(arrow(ls))
         if arrow(ls) != ls and not gameOver(ls):
-            print(2)
-            lsAfter = addTiles(arrow(ls))
+            lsAfter = addTiles(arrow(ls, True))
             renderGame(lsAfter)
         elif gameOver(ls): lsAfter = generateHTML()
         elif arrow(ls) == ls: renderGame(ls); lsAfter = ls
@@ -46,7 +44,8 @@ def gameOver(ls):
     return False
 
 
-def move(ls):
+def move(ls, scoreAdd = False):
+    global score
     lsCOPY = ls.copy()
     while 0 in lsCOPY:
         lsCOPY.remove(0)
@@ -58,6 +57,7 @@ def move(ls):
     while True:
         j = i - 1
         if lsCOPY[i] == lsCOPY[j]:
+            score += lsCOPY[j] * 2 if scoreAdd else 0
             lsCOPY[j] *= 2
             lsCOPY[i] = 0
             if i == 1: i = 3
@@ -74,31 +74,32 @@ def move(ls):
     
     return lsCOPY
 
-def wholeMove(ls):
+def wholeMove(ls, scoreAdd = False):
     result = []
     for i in ls:
-        result += move(i)
+        result += move(i, scoreAdd)
     return result
 
-def left(ls):
-    return wholeMove([ls[0:4], ls[4:8], ls[8:12], ls[12:16]])
+def left(ls, scoreAdd = False):
+    return wholeMove([ls[0:4], ls[4:8], ls[8:12], ls[12:16]], scoreAdd)
 
-def right(ls):
-    x = wholeMove([ls[3:0:-1] + [ls[0]], ls[7:3:-1], ls[11:7:-1], ls[15:11:-1]])
+def right(ls, scoreAdd = False):
+    x = wholeMove([ls[3:0:-1] + [ls[0]], ls[7:3:-1], ls[11:7:-1], ls[15:11:-1]], scoreAdd)
     return x[3:0:-1] + [x[0]] + x[7:3:-1] + x[11:7:-1] + x[15:11:-1]
 
-def up(ls):
-    x = wholeMove([ls[3:16:4], ls[2:15:4], ls[1:14:4], ls[0:13:4]])
+def up(ls, scoreAdd = False):
+    x = wholeMove([ls[3:16:4], ls[2:15:4], ls[1:14:4], ls[0:13:4]], scoreAdd)
     return x[12:0:-4]+ [x[0]] + x[13:0:-4] + x[14:1:-4] + x[15:2:-4]
 
-def down(ls):
-    x = wholeMove([ls[12:0:-4] + [ls[0]], ls[13:0:-4], ls[14:1:-4], ls[15:2:-4]])
+def down(ls, scoreAdd = False):
+    x = wholeMove([ls[12:0:-4] + [ls[0]], ls[13:0:-4], ls[14:1:-4], ls[15:2:-4]], scoreAdd)
     return x[3:16:4] + x[2:15:4] + x[1:14:4] + x[0:13:4]
-
 def renderGame(ls: list) -> None:
+    global score
     for pos, i in enumerate(ls, 1):
         document.getElementById(f"{pos}").innerHTML = str(i) if i != 0 else ""
         color(i, pos)
+    document.getElementById('score').innerHTML = score
 
 def availableSpots(ls):
     lsCOPY = ls.copy()
@@ -127,6 +128,10 @@ def generateHTML() -> list:
     renderGame(ls)
     return ls
 
+document.getElementById('loading').style.display = "none"
+document.getElementById('gameContent').style.display = "block"
+
+score = 0
 ls = generateHTML()
     `));
 });
