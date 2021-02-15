@@ -3,6 +3,7 @@ console.log(pyodide.runPython(`
 import js
 import random
 document = js.document
+localStorage = js.localStorage
 
 def color(tile: int, Id: int):
     tileColors = {
@@ -19,6 +20,12 @@ def color(tile: int, Id: int):
     	512: "edc850",
     	1024: "edc53f",
     	2048: "edc22e",
+        4096: "000000",
+        8192: "000000",
+        16384: "000000",
+        32768: "000000",
+        65536: "000000",
+        131072: "000000"
     }
     tileColor = tileColors[tile]
     jstile = document.getElementById(f"{Id}")
@@ -27,6 +34,7 @@ def color(tile: int, Id: int):
     jstile.style.fontSize = f"{[7, 6, 5, 4][len(f'{tile}') - 1]}vw"
 
 def keyDown(event, ls: list) -> list:
+    global score
     if event.keyCode >=37 and event.keyCode <= 40:
         arrow = [left, up, right, down][event.keyCode - 37]
         renderGame(arrow(ls))
@@ -72,6 +80,9 @@ def move(ls, scoreAdd = False):
     while len(lsCOPY) < 4:
         lsCOPY += [0]
     
+    if int(localStorage.getItem('highScore')) < score:
+        localStorage.setItem('highScore', score)
+    
     return lsCOPY
 
 def wholeMove(ls, scoreAdd = False):
@@ -99,7 +110,8 @@ def renderGame(ls: list) -> None:
     for pos, i in enumerate(ls, 1):
         document.getElementById(f"{pos}").innerHTML = str(i) if i != 0 else ""
         color(i, pos)
-    document.getElementById('score').innerHTML = score
+    document.getElementById('scoreNumber').innerHTML = score
+    document.getElementById('highScoreNumber').innerHTML = localStorage.getItem('highScore')
 
 def availableSpots(ls):
     lsCOPY = ls.copy()
@@ -117,6 +129,8 @@ def addTiles(ls):
     return lsCOPY
 
 def generateHTML() -> list:
+    global score
+    score = 0
     html = ""
     for i in range(4):
         html += "<tr>"
@@ -128,10 +142,12 @@ def generateHTML() -> list:
     renderGame(ls)
     return ls
 
+if localStorage.getItem('highScore') == None:
+    print(None)
+    localStorage.setItem('highScore', 0)
+
 document.getElementById('loading').style.display = "none"
 document.getElementById('gameContent').style.display = "block"
-
-score = 0
 ls = generateHTML()
     `));
 });
