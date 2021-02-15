@@ -11,13 +11,14 @@
         <style>
 body {
     background-color: #faf8ef;
+    width: 46vw;
+    margin: 0 auto;
 }
+
 table {
     border-collapse: collapse;
     display: block;
-    padding-top: 5vw;
-    width: 46vw;
-    margin: 0 auto;
+    padding-top: 7vw;
 }
 
 td.border {
@@ -27,29 +28,45 @@ td.border {
     text-align: center;
 }
 
-div#scoreTitle {
+div.scoreTitle {
     color: #ebe4da !important;
 }
 
-div#scoreContainer {
+div.scoreContainer {
     width: 10vw;
     background-color: #bbada0;
     color: white;
     border-radius: 3px;
     padding: 1vw 2vw;
-    margin: 0 auto;
     font-size: 2vw;
 }
 
+div#score {
+    float: left;
+}
+
+div#highScore {
+    float: right;
+}
+
 #loading {
-    font-size: 20vw;
+    font-size: 10vw;
 }
         </style>
     </head>
     <body onkeydown="pyodide.runPython('ls = keyDown(js.event, ls)')">
         <div align="center" id="loading">Loading...</div>
         <div id="gameContent" style="display: none">
-            <div align="center" id="scoreContainer"><div id="scoreTitle">Score:</div><br><div id="score"></div></div>
+            <div align="center" id="scoresContainer">
+                <div class="scoreContainer" id="score">
+                    <div class="scoreTitle">Score:</div>
+                    <div id="scoreNumber" class="scoreNumber"></div>
+                </div>
+                <div class="scoreContainer" id="highScore">
+                    <div class="scoreTitle">High score:</div>
+                    <div id="highScoreNumber" class="scoreNumber"></div>
+                </div>
+            </div>
             <table align="center" id="table"></table>
         </div>
         <script src="script2048.js"></script>
