@@ -5,6 +5,22 @@ import random
 document = js.document
 localStorage = js.localStorage
 
+def save():
+    global ls
+    global score
+    for i in range(16):
+        localStorage.setItem(f'ls[{i}]', ls[i])
+    localStorage.setItem('score', score)
+
+def load():
+    global score
+    global ls
+    ls = []
+    for i in range(16):
+        ls.append(int(localStorage.getItem(f'ls[{i}]')))
+    score = int(localStorage.getItem('score'))
+    renderGame(ls)
+
 def color(tile: int, Id: int):
     tileColors = {
     	0: "cdc1b4",
