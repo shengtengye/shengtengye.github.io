@@ -13,12 +13,13 @@ body {
     background-color: #faf8ef;
     width: 46vw;
     margin: 0 auto;
+    font-family: arial;
 }
 
 table {
+    margin-top: 1vw;
     border-collapse: collapse;
     display: block;
-    padding-top: 7vw;
 }
 
 td.border {
@@ -38,7 +39,11 @@ div.scoreContainer {
     color: white;
     border-radius: 3px;
     padding: 1vw 2vw;
-    font-size: 2vw;
+    font-size: 1.9vw;
+}
+
+div#scoresContainer {
+    height: 6.5vw;
 }
 
 div#score {
@@ -49,8 +54,36 @@ div#highScore {
     float: right;
 }
 
+div#buttonContainer {
+    margin-top: 1vw;
+    height: 4vw;
+}
+
 #loading {
     font-size: 10vw;
+}
+
+button {
+    display: inline-block;
+    background: #8f7a66;
+    border-radius: 3px;
+    padding: 0 2vw;
+    text-decoration: none;
+    color: #f9f6f2;
+    height: 4vw;
+    line-height: 4vw;
+    display: block;
+    text-align: center;
+    font-size: 2vw;
+    cursor: pointer;
+}
+
+button#save {
+    float: left;
+}
+
+button#load {
+    float: right;
 }
         </style>
     </head>
@@ -66,6 +99,10 @@ div#highScore {
                     <div class="scoreTitle">High score:</div>
                     <div id="highScoreNumber" class="scoreNumber"></div>
                 </div>
+            </div>
+            <div id="buttonContainer">
+                <button id="save" onclick="pyodide.runPython('save()')">Save</button>
+                <button id="load" onclick="pyodide.runPython('load()')">Load</button>
             </div>
             <table align="center" id="table"></table>
         </div>
