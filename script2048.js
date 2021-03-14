@@ -47,7 +47,7 @@ def color(tile: int, Id: int):
     jstile = document.getElementById(f"{Id}")
     jstile.style.backgroundColor = f"#{tileColor}"
     jstile.style.color = "white" if tile > 4 else "#776e65"
-    jstile.style.fontSize = f"{[7, 6, 5, 4][len(f'{tile}') - 1]}vw"
+    jstile.style.fontSize = f"{[3, 2.5, 2, 1.5, 1][len(f'{tile}') - 1]}vw"
 
 def keyDown(event, ls: list) -> list:
     global score
