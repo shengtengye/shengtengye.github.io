@@ -29,12 +29,53 @@ td {
     height: 32px;
     text-align: center;
     background-color: white;
+    cursor: pointer;
+}
+
+input[type="number"] {
+    padding: 3px 0px 3px 18px;
+    font-size: 32px;
+    width: 37%;
+}
+
+input[type=button]:hover   {
+    cursor: pointer;
+    background-color: rgb(220, 220, 220)
+}
+
+input {
+    border-radius: 100px;
+    cursor: pointer;
+    width: 100%;
+    padding: 3px 0px 3px 0px;
+    margin: 3px 0px 3px 0px;
+    outline: none;
+    font-size: 27px;
+}
+
+label {
+    font-size: 30.8px;
+}
+
+form {
+    width: 200px;
+    text-align: right;
+    display: none;
 }
         </style>
     </head>
     <body>
         <div align="center" id="loading">Loading...</div>
         <div align="center" id="container">
+            <form name="size" onsubmit="pyodide.runPython('change_field()')">
+                <label for="width">Width:</label>
+                <input value="10" title="" type="number" name="width" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <label for="height">Height:</label>
+                <input value="10" title="" type="number" name="height" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <label for="mines">Mines:</label>
+                <input value="10" title="" type="number" name="mines" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input type="button" value="Change board" onclick="pyodide.runPython('change_field()')">
+            </form>
             <table id=table></table>
             <div id="message_container"></div>
         </div>
