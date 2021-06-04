@@ -117,7 +117,7 @@ def click_event(event: int, click_x: int, click_y: int, first: bool = False, dir
       else: # flag
         flag_coordinates.append((click_x, click_y))
   elif event == 2: # left and right click
-    if field[click_x][click_y] == find_around(flag_coordinates, click_x, click_y): # uncover around
+    if field[click_x][click_y] == find_around(flag_coordinates, click_x, click_y) and uncovered [click_x][click_y] : # uncover around
       for w in range(click_x - 1, click_x + 2):
         for h in range(click_y - 1, click_y + 2):
           if w < width and h < height and w >= 0 and h >= 0:
@@ -149,7 +149,7 @@ def generate_field_html() -> None:
   document.getElementById('container').style.display = 'block'
   document.forms['size'].style.display = 'block'
 
-def fill_field(new: bool = False) -> None:
+def fill_field() -> None:
   global field, height, width, uncovered, flag_coordinates, status
   colors = {
     0: [192, 192, 192],
@@ -174,11 +174,14 @@ def fill_field(new: bool = False) -> None:
         document.getElementById(f'{h}-{w}').innerHTML = "🚩"
       elif document.getElementById(f'{h}-{w}').innerHTML == "🚩":
         document.getElementById(f'{h}-{w}').innerHTML = ""
-      elif status == "Game over!" and (w, h) in mine_coordinates:
-        document.getElementById(f'{h}-{w}').innerHTML = "💣"
+      if status == "Game over!":
+        if (w, h) in mine_coordinates and not (w, h) in flag_coordinates:
+          document.getElementById(f'{h}-{w}').innerHTML = "💣"
+        elif (w, h) in flag_coordinates and not (w, h) in mine_coordinates:
+          document.getElementById(f'{h}-{w}').innerHTML = "❌"
 
 def mouse_clicked(event, click_x: int, click_y: int): # event is js.proxy
-  global first, mines, status, timer_start, timer_end
+  global first, mines, mine_coordinates, status, timer_start, timer_end, flag_coordinates
   if status == "":
     if event.button == 0: # left click
       click_event(0, click_x, click_y, first)
@@ -193,7 +196,7 @@ def mouse_clicked(event, click_x: int, click_y: int): # event is js.proxy
     timer_end = time.perf_counter()
     status = "You win!"
     print(f"Time: {timer_end - timer_start}")
-  document.getElementById('message_container').innerHTML = status
+  document.getElementById('message_container').innerHTML = status if status != "" else f'Flags left: {mines - len(flag_coordinates)}'
 
 generate_field_html()
 fill_field()
