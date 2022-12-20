@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+    height: 100vh;
+    font-family: Arial;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+}
+
+#table {
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    height:50%;
+    font-size: 20vw;
+    text-align: center;
+    color:white
+}
+
+#p1 {
+    background-color: #dda43b;
+}
+
+#p2 {
+    background-color: #4bdaa5;
+}
+
+#p3 {
+    background-color: #df55b4;
+}
+
+#reset {
+    width: 100%;
+    height: 100%;
+    font-size: 10vw;
+}
+
+#reset_container {
+    height: 40%;
+    margin: 8px;
+}
