@@ -1,45 +1,27 @@
 const container = document.querySelector(".container");
-const coffees = [
+
+const cards = [
   {
-    name: "Perspiciatis",
+    name: "2048",
     image: "images/coffee1.jpg"
   },
   {
-    name: "Voluptatem",
+    name: "Counter",
     image: "images/coffee2.jpg"
   },
   {
-    name: "Explicabo",
+    name: "math",
     image: "images/coffee3.jpg"
   },
   {
-    name: "Rchitecto",
+    name: "minesweeper",
     image: "images/coffee4.jpg"
-  },
-  {
-    name: " Beatae",
-    image: "images/coffee5.jpg"
-  },
-  {
-    name: " Vitae",
-    image: "images/coffee6.jpg"
-  },
-  {
-    name: "Inventore",
-    image: "images/coffee7.jpg"
-  },
-  {
-    name: "Veritatis",
-    image: "images/coffee8.jpg"
-  },
-  {
-    name: "Accusantium",
-    image: "images/coffee9.jpg"
   }
 ];
-const showCoffees = () => {
+
+const showCards = () => {
   let output = "";
-  coffees.forEach(
+  cards.forEach(
     ({ name, image }) =>
       (output += `
               <div class="card">
@@ -52,7 +34,7 @@ const showCoffees = () => {
   container.innerHTML = output;
 };
 
-document.addEventListener("DOMContentLoaded", showCoffees);
+document.addEventListener("DOMContentLoaded", showCards);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function() {
