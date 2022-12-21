@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>2048 game - pyscript</title>
-        <link rel="icon" href="2048.ico">
-        <script type="text/javascript">
-            // set the pyodide files URL (packages.json, pyodide.asm.data etc)
-            window.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
-        </script>
-        <script src="https://cdn.jsdelivr.net/pyodide/v0.20.0/full/pyodide.js"></script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="2048.css"/>
-        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-    </head>
-    <body>
-        <div id="gameContent" style="display: none">
-            <div id="scoresContainer">
-                <div class="scoreContainer" id="score">
-                    <div class="scoreTitle">Score:</div>
-                    <div id="scoreNumber" class="scoreNumber"></div>
-                </div>
-                <div class="scoreContainer" id="highScore">
-                    <div class="scoreTitle">High score:</div>
-                    <div id="highScoreNumber" class="scoreNumber"></div>
-                </div>
+
+<head>
+    <title>2048 game - pyscript</title>
+    <link rel="icon" href="2048.ico">
+    <script type="text/javascript">
+        // set the pyodide files URL (packages.json, pyodide.asm.data etc)
+        window.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.20.0/full/pyodide.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="2048.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+
+<body>
+    <div id="gameContent" style="display: none">
+        <div id="scoresContainer">
+            <div class="scoreContainer" id="score">
+                <div class="scoreTitle">Score:</div>
+                <div id="scoreNumber" class="scoreNumber"></div>
             </div>
-            <div id="buttonContainer">
-                <button id="save">Save</button>
-                <button id="load">Load</button>
+            <div class="scoreContainer" id="highScore">
+                <div class="scoreTitle">High score:</div>
+                <div id="highScoreNumber" class="scoreNumber"></div>
             </div>
-            <table id="table"></table>
         </div>
-        <script src="2048.js"></script>
-        <py-script src="2048_web.py"></py-script> 
-    </body>
+        <div id="buttonContainer">
+            <button id="save">Save</button>
+            <button id="load">Load</button>
+        </div>
+        <table id="table"></table>
+    </div>
+    <script src="2048.js"></script>
+    <script src="/js/wakelock.js"></script>
+    <py-script src="2048_web.py"></py-script>
+</body>
+
 </html>

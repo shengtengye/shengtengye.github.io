@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script type="text/javascript">
-            // set the pyodide files URL (packages.json, pyodide.asm.data etc)
-            window.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
-        </script>
-        <script src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="math.css">
-    </head>
-    <body>
-        <script>
-          languagePluginLoader.then(function () {
-              console.log(pyodide.runPython(`
+
+<head>
+    <script type="text/javascript">
+        // set the pyodide files URL (packages.json, pyodide.asm.data etc)
+        window.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="math.css">
+</head>
+
+<body>
+    <script>
+        languagePluginLoader.then(function () {
+            console.log(pyodide.runPython(`
 import js
 import random
 from typing import Tuple
@@ -85,15 +87,18 @@ def submitted(asr: int) ->  int:
         js.document.getElementById("tries").innerHTML = f"Tries: {x}"
     return asr
               `));
-          });
+        });
     </script>
     <h1 id="loading">Loading app...</h1>
     <form name="math" style="display: none" onsubmit="pyodide.runPython('asr = submitted(asr)'); return false">
         <label for="answer" id="prob"></label>
-        <input title="" type="number" id="answer" name="answer" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+        <input title="" type="number" id="answer" name="answer" maxlength="3"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
         <input type="button" value="Submit" onclick="pyodide.runPython('asr = submitted(asr)')">
     </form>
-    <div id="wrong"></div><br><div id="tries"></div>
+    <div id="wrong"></div><br>
+    <div id="tries"></div>
+    <script src="/js/wakelock.js"></script>
 </body>
-</html>
 
+</html>
