@@ -20,7 +20,12 @@ const cards = [
     name: "minesweeper",
     image: "images/coffee4.jpg",
     link: "./minesweeper/index.html"
-  }
+  },
+  {
+    name: "typing",
+    image: "images/coffee5.jpg",
+    link: "./typing/index.html"
+  },
 ];
 
 const showCards = () => {
@@ -29,9 +34,11 @@ const showCards = () => {
     ({ name, image, link }) =>
       (output += `
               <div class="card">
+                <a href=${link}>
                 <img class="card--avatar" src=${image} />
                 <h1 class="card--title">${name}</h1>
-                <a class="card--link" href=${link}>${name}</a>
+                <!--a class="card--link" href=${link}>${name}</a-->
+                </a>
               </div>
               `)
   );
