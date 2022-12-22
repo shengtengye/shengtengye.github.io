@@ -1,84 +1,92 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <script type="text/javascript">
-            // set the pyodide files URL (packages.json, pyodide.asm.data etc)
-            window.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
-        </script>
-        <script src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"></script>
-        <style>
-body {
-    font-family: arial;
-    font-size: 22px;
-    background-color: black;
-    color: white;
-}
 
-#loading {
-    font-size: 5vw;
-}
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        // set the pyodide files URL (packages.json, pyodide.asm.data etc)
+        window.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js"></script>
+    <style>
+        body {
+            font-family: arial;
+            font-size: 22px;
+            background-color: black;
+            color: white;
+        }
 
-table {
-    border-collapse: collapse;
-}
+        #loading {
+            font-size: 5vw;
+            text-align: center;
+        }
 
-td {
-    border: 1px solid black;
-    width: 32px;
-    height: 32px;
-    text-align: center;
-    background-color: white;
-    cursor: pointer;
-}
+        table {
+            border-collapse: collapse;
+        }
 
-input[type="number"] {
-    padding: 3px 0px 3px 18px;
-    font-size: 32px;
-    width: 37%;
-}
+        td {
+            border: 1px solid black;
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            background-color: white;
+            cursor: pointer;
+        }
 
-input[type=button]:hover   {
-    cursor: pointer;
-    background-color: rgb(220, 220, 220)
-}
+        input[type=number] {
+            padding: 3px 0px 3px 18px;
+            font-size: 32px;
+            width: 37%;
+        }
 
-input {
-    border-radius: 100px;
-    cursor: pointer;
-    width: 100%;
-    padding: 3px 0px 3px 0px;
-    margin: 3px 0px 3px 0px;
-    outline: none;
-    font-size: 27px;
-}
+        input[type=button]:hover {
+            cursor: pointer;
+            background-color: rgb(220, 220, 220)
+        }
 
-label {
-    font-size: 30.8px;
-}
+        input {
+            border-radius: 100px;
+            cursor: pointer;
+            width: 100%;
+            padding: 3px 0px 3px 0px;
+            margin: 3px 0px 3px 0px;
+            outline: none;
+            font-size: 27px;
+        }
 
-form {
-    width: 200px;
-    text-align: right;
-    display: none;
-}
-        </style>
-    </head>
-    <body>
-        <div align="center" id="loading">Loading...</div>
-        <div align="center" id="container">
-            <form name="size" onsubmit="pyodide.runPython('change_field()')">
-                <label for="width">Width:</label>
-                <input value="10" title="" type="number" name="width" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                <label for="height">Height:</label>
-                <input value="10" title="" type="number" name="height" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                <label for="mines">Mines:</label>
-                <input value="10" title="" type="number" name="mines" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                <input type="button" value="Change board" onclick="pyodide.runPython('change_field()')">
-            </form>
-            <table id=table></table>
-            <div id="message_container"></div>
-        </div>
-        <script src="Minesweeper.js"></script>
-    </body>
+        label {
+            font-size: 30.8px;
+        }
+
+        form {
+            width: 200px;
+            text-align: right;
+            display: none;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">Loading...</div>
+    <div id="container">
+        <form name="size" onsubmit="pyodide.runPython('change_field()')">
+            <label for="width">Width:</label>
+            <input value="10" title="" type="number" name="width" maxlength="3"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            <label for="height">Height:</label>
+            <input value="10" title="" type="number" name="height" maxlength="3"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            <label for="mines">Mines:</label>
+            <input value="10" title="" type="number" name="mines" maxlength="3"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            <input type="button" value="Change board" onclick="pyodide.runPython('change_field()')">
+        </form>
+        <table id=table></table>
+        <div id="message_container"></div>
+    </div>
+    <script src="Minesweeper.js"></script>
+    <script src="/js/wakelock.js"></script>
+</body>
 </head>
